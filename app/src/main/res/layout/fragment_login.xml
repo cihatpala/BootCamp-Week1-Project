@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:padding="20dp"
+        tools:context=".Fragments.LoginFragment">
+
+        <LinearLayout
+            android:id="@+id/ll_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:weightSum="5"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/ll_image_and_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:weightSum="11">
+
+                <ImageView
+                    android:id="@+id/login_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="9"
+                    android:src="@drawable/login_photo" />
+
+                <TextView
+                    android:id="@+id/tv_login_welcome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:layout_weight="2"
+                    android:text="Welcome Back!"
+                    android:textColor="@color/black"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="3"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <LinearLayout
+                    android:id="@+id/ll_loginMailText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/custom_border"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:id="@+id/iv_loginMailText"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:src="@drawable/login_account_photo" />
+
+
+                    <EditText
+                        android:id="@+id/et_loginMailText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:background="@null"
+                        android:hint="example@email.com"
+                        android:textColor="@color/login_button_color" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_loginPassText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@color/border_pass_background"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="10">
+
+                    <ImageView
+                        android:id="@+id/iv_loginPassText"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:padding="5dp"
+                        android:src="@drawable/login_pass_photo" />
+
+
+                    <EditText
+                        android:id="@+id/et_loginPassText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="9"
+                        android:background="@null"
+                        android:hint="password" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btn_forgot_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="right"
+                    android:text="Forgot Password?" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_log_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:background="@drawable/custom_btn_bg"
+                    android:text="LOG IN"
+                    android:textColor="@color/white" />
+
+
+                <TextView
+                    android:id="@+id/tv_other_connect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="Or connect with social" />
+
+
+                <LinearLayout
+                    android:id="@+id/ll_other_connect"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/border_pass_background"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <com.facebook.login.widget.LoginButton
+                        android:id="@+id/btn_facebook"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_btn_bg"
+                        android:text="Facebook"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_google"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/custom_btn_bg_google"
+                        android:text="Google"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
