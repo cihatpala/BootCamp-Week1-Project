@@ -1,6 +1,6 @@
 package com.cihatpala.week1project.adapter;
 
-import static com.cihatpala.week1project.helper.CoinHelper.changeDrawableColor;
+import static com.cihatpala.week1project.helper.CoinHelper.colors;
 import static java.security.AccessController.getContext;
 
 import android.annotation.SuppressLint;
@@ -45,7 +45,9 @@ public class CurrencyAdapter extends RecyclerView.Adapter<CurrencyHolder> {
     @Override
     public void onBindViewHolder(@NonNull CurrencyHolder holder, int position) {
         CurrencyModel currencyItem = coinsList.get(position);
-        holder.bind(currencyItem);
+        int currentColor = position % 4 == 0 ? 1 : position % 3 == 0 ? 2 : position % 2 == 0 ? 3 : 4;
+
+        holder.bind(currencyItem, colors.get(currentColor));
     }
 
     @Override

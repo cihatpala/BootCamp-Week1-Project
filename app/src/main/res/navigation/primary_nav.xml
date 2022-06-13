@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/primary_nav"
     app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
+        tools:layout="@layout/fragment_login"
         android:name="com.cihatpala.week1project.Fragments.LoginFragment"
         android:label="LoginFragment" >
         <action
@@ -16,6 +18,7 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_home"
         android:id="@+id/homeFragment"
         android:name="com.cihatpala.week1project.Fragments.HomeFragment"
         android:label="HomeFragment" >
@@ -24,6 +27,7 @@
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
+        tools:layout="@layout/fragment_forgot_password"
         android:id="@+id/forgotPasswordFragment"
         android:name="com.cihatpala.week1project.Fragments.ForgotPasswordFragment"
         android:label="ForgotPasswordFragment" >

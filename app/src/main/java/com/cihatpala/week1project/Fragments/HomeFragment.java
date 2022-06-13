@@ -1,5 +1,7 @@
 package com.cihatpala.week1project.Fragments;
 
+import static com.cihatpala.week1project.helper.CoinHelper.colors;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
@@ -22,6 +24,7 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,6 +43,11 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        colors = new HashMap<>();
+        colors.put(1, R.drawable.ic_rectangle1);
+        colors.put(2, R.drawable.ic_rectangle2);
+        colors.put(3, R.drawable.ic_rectangle3);
+        colors.put(4, R.drawable.ic_rectangle4);
         mAuth = FirebaseAuth.getInstance();
         repo = ApiClient.getClient().create(Repo.class);
     }
