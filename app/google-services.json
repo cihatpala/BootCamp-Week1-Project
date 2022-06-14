@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1043089677899-h74coim4dcqg84euacg958c8gv2i1qoo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cihatpala.week1project",
+            "certificate_hash": "48ddc6362734094d30df20513341827d795ac4bf"
+          }
+        },
+        {
           "client_id": "1043089677899-jb8kikdbd3aivbta62c3v7vdcbi3kt8o.apps.googleusercontent.com",
           "client_type": 3
         }

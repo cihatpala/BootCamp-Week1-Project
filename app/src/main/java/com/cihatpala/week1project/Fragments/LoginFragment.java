@@ -2,6 +2,7 @@ package com.cihatpala.week1project.Fragments;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,6 +32,11 @@ import com.cihatpala.week1project.databinding.FragmentLoginBinding;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,6 +46,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -54,6 +61,9 @@ public class LoginFragment extends Fragment {
     private static final String EMAIL = "email";
     AccessToken accessToken;
     FirebaseUser currentUser;
+    private GoogleSignInClient mGoogleSignInClient;
+    public View globalView;
+    private static final int RC_SIGN_IN = 9001;
 
 
     public LoginFragment() {
@@ -65,6 +75,12 @@ public class LoginFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAuth = FirebaseAuth.getInstance();
+        mCallbackManager = CallbackManager.Factory.create();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -133,7 +149,6 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // Initialize Facebook Login button
-                mCallbackManager = CallbackManager.Factory.create();
                 binding.btnFacebook.setReadPermissions(Arrays.asList(EMAIL, "password"));
                 binding.btnFacebook.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
@@ -156,6 +171,14 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        binding.btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                globalView = view;
+                signInUsingGoogle();
+            }
+        });
+
     }
 
     @Override
@@ -164,6 +187,11 @@ public class LoginFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, null, false);
         View view = binding.getRoot();
         return view;
+    }
+
+    private void signInUsingGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void handleFacebookAccessToken(AccessToken token, View view) {
@@ -190,10 +218,47 @@ public class LoginFragment extends Fragment {
                 });
     }
 
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnSuccessListener(authResult -> {
+                    Log.w("TAG", "onSuccess firebaseAuthWithGoogle");
+//                    NavDirections action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment();
+//                    Navigation.findNavController(globalView).navigate(action);
+                }).addOnFailureListener(e -> {
+            Log.w("TAG", "onFailure firebaseAuthWithGoogle");
+            Toast.makeText(getContext(), "bir hata oluştu : " + e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        });
+    }
+
     private void updateUI(FirebaseUser user, View view) {
         if (user != null) {
             NavDirections action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment();
             Navigation.findNavController(view).navigate(action);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+        Log.w("TAG", "onActivityResult: " + requestCode);
+        Log.w("TAG", "resultCode: " + resultCode);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                // Google Sign In failed
+                Log.w("TAG", "GoogleSignIn: " + e.getLocalizedMessage());
+                Toast.makeText(getContext(), "Login olunurken bir hata oluştu :" + e
+                        .getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                Log.w("TAG", "Google sign in failed", e);
+            }
         }
     }
 
